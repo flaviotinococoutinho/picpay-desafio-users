@@ -1,0 +1,12 @@
+
+DESAFIO BUSCA USUÁRIOS:
+VERSÃO DA APLICAÇÃO: ${application.version}
+VERSÃO SPRING BOOT: ${spring-boot.version}
+
+
+ ___   ___   ___         ___   ___   ___   ___   ___   ___   ___  
+|   | |   |   |           | | |     |     |   | |       |   |   | 
+|-+-| |-+-    +           + | |-+-   -+-  |-+-| |-+-    +   |   | 
+|   | |       |           | | |         | |   | |       |   |   | 
+             ---         ---   ---   ---               ---   ---  
+
