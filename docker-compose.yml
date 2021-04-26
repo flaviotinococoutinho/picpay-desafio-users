@@ -1,61 +1,59 @@
 version: '3.4'
 services:
-    pic-mysql-db:
-        container_name: pic-mysql-db
-        restart: always
-        networks:
-           spring-picpay:
-               aliases:
-                    - mysql
-        build:
-            context: .
-            dockerfile: mysql.Dockerfile
-        environment:
-            - MYSQL_DATABASE=picpay_teste
-            - MYSQL_ROOT_PASSWORD=root
-            - MYSQL_USER=api_user
-            - MYSQL_PASSWORD=picpay
-        ports:
-            - "3306:3306"
-    pic-elasticsearch:
-        container_name: pic-elasticsearch
-        restart: always
-        networks:
-           spring-picpay:
-              aliases:
-                 - es
-                 - elasticsearch
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
-        ports:
-            - 9200:9200
-            - 9300:9300
-        environment:
-            - http.host=0.0.0.0
-            - transport.host=127.0.0.1
-            - xpack.security.enabled=false
-            - cluster.name=elasticsearch
-            - bootstrap.memory_lock=true
-            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    picpay-test:
-        container_name: "picpay-test"
-        restart: always
-        networks:
-           spring-picpay:
-              aliases:
-                 - picpay-api-server
-        build:
-           context: .
-           dockerfile: backend.Dockerfile
-        volumes:
-            - ./picpay-teste-backend:/picpay-teste-backend
-            - ~/.m2:/root/.m2
-        environment:
-            - DB_URL=mysql:3306
-        ports:
-            - "8080:8080"
-        depends_on:
-            - pic-mysql-db
-            - pic-elasticsearch
-networks:
-  spring-picpay:
-     driver: bridge
+  picsql:
+    container_name: picsql
+    restart: always
+    hostname: mysql
+    volumes:
+      - ./db:/var/lib/mysql
+    build:
+      context: .
+      dockerfile: mysql.Dockerfile    
+    environment:
+      - MYSQL_PASSWORD=root
+      - MYSQL_USER=api_user
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=picpay_teste
+    ports:
+      - "3351:3306"
+  # Service ElasticSearch
+  elasticsearch:
+    image: elastic/elasticsearch:6.2.2
+    container_name: elastic
+    hostname: elastic
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      - ./es:/usr/share/elasticsearch/data
+    environment:
+      - http.host=0.0.0.0
+      - transport.host=elastic
+      - network.host=0.0.0.0
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - cluster.name=elastic
+      - discovery.type=single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+  picpay-test:
+    container_name: "picpay-test"
+    restart: always
+    build:
+      context: .
+      dockerfile: backend.Dockerfile
+    volumes:
+      - ./picpay-teste-backend:/picpay-teste-backend
+      - ~/.m2:/root/.m2
+    environment:
+      - MYSQL_DATASOURCE=picsql:3306
+      - SPRING_DATASOURCE_PASSWORD=root
+      - CLUSTER_NAME=elastic
+      - CLUSTER_NODES=elastic:9300
+    ports:
+      - "8080:8080"
+    depends_on:
+      - picsql
+      - elasticsearch

@@ -1,51 +1,34 @@
-package com.picpay.testebackend.model.sql;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+package com.picpay.testebackend.model;
 
 import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
-@Entity
-@Document(indexName = "pictest", type = "users")
-public class User {
+import java.util.Date;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
-	@Field(type = FieldType.Text)
-	private String username;
-	@Field(type = FieldType.Text)
-	private String nome;
-	private String uuid;
+@Document(indexName = "user")
+public class UserModel {
+    private Long id;
+    private String nome;
+    private String username;
+    private Date modificationDate;
 
-	public User() {
-	}
-
-	public User(String username, String nome, String uuid) {
+    public UserModel() {
 		super();
-		this.username = username;
+	}
+
+	public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
 		this.nome = nome;
-		this.uuid = uuid;
-	}
-
-	public User(int id, String username, String nome, String uuid) {
-		super();
-		this.id = id;
-		this.username = username;
-		this.nome = nome;
-		this.uuid = uuid;
-	}
-
-	public int getId() {
-		return this.id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getUsername() {
@@ -56,26 +39,11 @@ public class User {
 		this.username = username;
 	}
 
-	public String getNome() {
-		return nome;
-	}
+	public Date getModificationDate() {
+        return modificationDate;
+    }
 
-	public void setNome(String name) {
-		this.nome = name;
-	}
-
-	public String getUuid() {
-		return uuid;
-	}
-
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
-	}
-
-	@Override
-	public String toString() {
-		return "User{" + "id=" + id + ", username='" + username + '\'' + ", nome='" + nome + '\'' + ", uuid='" + uuid
-				+ '\'' + '}';
-	}
-
+    public void setModificationDate(Date modificationDate) {
+        this.modificationDate = modificationDate;
+    }
 }
