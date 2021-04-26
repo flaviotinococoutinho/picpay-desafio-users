@@ -8,26 +8,25 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.web.WebApplicationInitializer;
 
+//@SpringBootApplication é equivalente ao @Configuration, @EnableAutoConfiguration, e @ComponentScan juntos
 @SpringBootApplication
-@ServletComponentScan
 @EnableBatchProcessing
-public class PicpayTesteBackendApplication extends SpringBootServletInitializer implements WebApplicationInitializer {
+public class PicpayTesteBackendApplication extends SpringBootServletInitializer {
+
 	@PostConstruct
 	void started() {
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 	}
-
-	public static void main(String[] args) {
-		SpringApplication.run(PicpayTesteBackendApplication.class, args);
-	}
-
+	
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(PicpayTesteBackendApplication.class);
+	}
+
+	public static void main(String[] args) {
+		SpringApplication.run(PicpayTesteBackendApplication.class, args);
 	}
 
 }

@@ -1,54 +1,61 @@
-version: '3.2'
+version: '3.4'
 services:
     pic-mysql-db:
         container_name: pic-mysql-db
         restart: always
+        networks:
+           spring-picpay:
+               aliases:
+                    - mysql
         build:
             context: .
             dockerfile: mysql.Dockerfile
         environment:
-            - DB_URL=pic-mysql-db:3306
             - MYSQL_DATABASE=picpay_teste
-            - MYSQL_ROOT_PASSWORD=1q2w3e4r
-            - MYSQL_PASSWORD=1q2w3e4r
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_USER=api_user
+            - MYSQL_PASSWORD=picpay
         ports:
             - "3306:3306"
     pic-elasticsearch:
         container_name: pic-elasticsearch
-        image: elasticsearch:5.6.13
-        volumes:
-             - $HOME/data/pic-elasticsearch/:/usr/share/elasticsearch/data/
+        restart: always
+        networks:
+           spring-picpay:
+              aliases:
+                 - es
+                 - elasticsearch
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
         ports:
             - 9200:9200
             - 9300:9300
-        command: -Enetwork.host=0.0.0.0 -Ediscovery.type=single-node
         environment:
-            - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+            - http.host=0.0.0.0
+            - transport.host=127.0.0.1
+            - xpack.security.enabled=false
             - cluster.name=elasticsearch
-    pic-rabbitmq:
-        image: "rabbitmq:3-management"
-        container_name: "pic-rabbitmq"
-        hostname: "albatross"
-        restart: "no"
-        environment:
-            RABBITMQ_DEFAULT_USER: "rabbitmq"
-            RABBITMQ_DEFAULT_PASS: "rabbitmq"
-        labels:
-            NAME: "rabbitmq1"
-        ports:
-            - "5672:5672"
-            - "15672:15672"
+            - bootstrap.memory_lock=true
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     picpay-test:
         container_name: "picpay-test"
         restart: always
+        networks:
+           spring-picpay:
+              aliases:
+                 - picpay-api-server
         build:
            context: .
            dockerfile: backend.Dockerfile
+        volumes:
+            - ./picpay-teste-backend:/picpay-teste-backend
+            - ~/.m2:/root/.m2
         environment:
-            - DB_URL=pic-mysql-db:3306
+            - DB_URL=mysql:3306
         ports:
             - "8080:8080"
         depends_on:
             - pic-mysql-db
-            - pic-rabbitmq
             - pic-elasticsearch
+networks:
+  spring-picpay:
+     driver: bridge

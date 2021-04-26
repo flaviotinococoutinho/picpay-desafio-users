@@ -3,6 +3,7 @@ package com.picpay.testebackend.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -43,7 +44,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
 
 	@Bean
 	public Docket devApi() {
-		return new Docket(DocumentationType.SWAGGER_2)// .host(host)
+		return new Docket(DocumentationType.SWAGGER_2)//.host(host)// .host(host)
 				.select().apis(RequestHandlerSelectors.basePackage("com.picpay.testebackend")).build()
 				.apiInfo(metaData());
 	}
@@ -54,6 +55,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
 		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
 	}
 
+	
 	@Override
 	protected void addViewControllers(ViewControllerRegistry registry) {
 		registry.addRedirectViewController("/", "/swagger-ui.html");
