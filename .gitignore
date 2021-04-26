@@ -16,6 +16,7 @@
 
 # Temp Containers
 .db
+.mysql_data
 .es
 
 # Package Files #
