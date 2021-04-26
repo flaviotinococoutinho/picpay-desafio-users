@@ -54,7 +54,7 @@ public class ElasticSynchronizer {
                 getModificationDatePredicate(criteriaBuilder, root);
         List<User> userList;
         if (userESRepo.count() == 0) {
-            userList = userDAO.findAll();
+            userList = userDAO.allLimited(20000);
         } else {
             userList = userDAO.findAll(userSpecification);
         }
