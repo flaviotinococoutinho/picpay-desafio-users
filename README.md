@@ -26,7 +26,7 @@ deve ser usado na busca. Ele contém os IDs, nomes e usernames dos usuários
   - Toda vez que fizer uma pesquisa, disparar em uma fila com a string que foi
 digitada na pesquisa, e um listener salvará essa pesquisa no banco.
 
-## Instalação e Execucação
+## Instalação e Execução
 ```
 docker-compose up --build
 ```
