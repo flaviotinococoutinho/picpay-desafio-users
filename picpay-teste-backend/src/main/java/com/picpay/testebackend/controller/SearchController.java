@@ -6,9 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +16,6 @@ import com.picpay.testebackend.model.UserModel;
 import com.picpay.testebackend.service.ISearchService;
 import com.picpay.testebackend.util.Constants;
 import com.picpay.testebackend.util.PathResources;
-import com.picpay.testebackend.util.ResultQuery;
 
 @RestController
 @RequestMapping(PathResources.SEARCH_CONTROLLER)
@@ -31,17 +27,12 @@ public class SearchController {
     public SearchController(ISearchService searchService) {
         this.searchService = searchService;
     }
-
-    @GetMapping(Constants.SEARCH_QUERY + "/{" + Constants.QUERY + "}")
-    public ResponseEntity<ResultQuery> searchQuery(@PathVariable String query) throws IOException {
-        return new ResponseEntity<> (searchService.searchFromQuery(query.trim().toLowerCase()), HttpStatus.OK);
-    }
     
-    @GetMapping("/busca/{" + Constants.QUERY + "}/{pageAtual}")
-    public ResponseEntity<List<UserModel>> searchName(@PathVariable String query,@PathVariable int pageAtual) throws IOException {
+    @GetMapping("/{" + Constants.QUERY + "}/{pageAtual}")
+    public ResponseEntity<Page<UserModel>> searchNomeOrUsername(@PathVariable String query,@PathVariable int pageAtual) throws IOException {
     	PageRequest pageRequest = PageRequest.of(pageAtual, 15);
     	Page<UserModel> page = searchService.findByNomeLikeOrUsernameLike(query.trim(),pageRequest);
-    	return ResponseEntity.ok().body(page.getContent());
+    	return ResponseEntity.ok().body(page);
     }
     
     

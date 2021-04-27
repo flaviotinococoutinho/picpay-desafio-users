@@ -16,7 +16,19 @@ services:
       - MYSQL_DATABASE=picpay_teste
     ports:
       - "3351:3306"
-  # Service ElasticSearch
+  pic-rabbit:
+    image: "rabbitmq:3-management"
+    container_name: "pic-rabbit"
+    hostname: "pic-rabbit"
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+    labels:
+      NAME: "rabbitmq1"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
   elasticsearch:
     image: elastic/elasticsearch:6.2.2
     container_name: elastic
@@ -50,10 +62,14 @@ services:
     environment:
       - MYSQL_DATASOURCE=picsql:3306
       - SPRING_DATASOURCE_PASSWORD=root
+      - RABBIT_HOST=pic-rabbit
+      - RABBITMQ_USER=rabbitmq
+      - RABBITMQ_PASS=rabbitmq
       - CLUSTER_NAME=elastic
       - CLUSTER_NODES=elastic:9300
     ports:
       - "8080:8080"
     depends_on:
+      - pic-rabbit
       - picsql
       - elasticsearch

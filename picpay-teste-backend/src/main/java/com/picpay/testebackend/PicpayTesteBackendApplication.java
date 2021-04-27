@@ -4,17 +4,20 @@ import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-//@SpringBootApplication é equivalente ao @Configuration, @EnableAutoConfiguration, e @ComponentScan juntos
 @SpringBootApplication
 @EnableElasticsearchRepositories("com.picpay.testebackend.repository.es")
 @EnableScheduling
+@EnableRabbit
+@EnableAsync
 public class PicpayTesteBackendApplication extends SpringBootServletInitializer {
 
 	@PostConstruct

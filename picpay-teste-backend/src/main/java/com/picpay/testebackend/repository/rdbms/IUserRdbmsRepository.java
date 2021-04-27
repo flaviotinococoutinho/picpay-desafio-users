@@ -11,7 +11,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.picpay.testebackend.model.User;
-import com.picpay.testebackend.model.UserModel;
 
 @Repository
 public interface IUserRdbmsRepository  extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
