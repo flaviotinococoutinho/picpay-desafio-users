@@ -49,3 +49,6 @@ docker-compose up --build
 ## TODO:
   - Usar o Logstash para sincronizar o banco relacional mysql com o elasticsearch;
   - Usar Mysql compatível com UUID(id universal) para imports pelo arquivo local;
+
+### Autor
+* Flávio Tinoco Coutinho - flaviotinoco@gmail.com
