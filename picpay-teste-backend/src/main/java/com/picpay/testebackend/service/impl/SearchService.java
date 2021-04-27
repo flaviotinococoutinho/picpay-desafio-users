@@ -12,9 +12,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.picpay.testebackend.model.UserModel;
+import com.picpay.testebackend.repository.es.IUserESRepository;
 import com.picpay.testebackend.service.ISearchService;
 import com.picpay.testebackend.util.Constants;
 import com.picpay.testebackend.util.HelperFunctions;
@@ -28,9 +33,17 @@ public class SearchService implements ISearchService {
 
     @Value("${api.elasticsearch.search}")
     private String elasticSearchSearchPrefix;
+    
+    @Autowired
+    public IUserESRepository iUserESRepository;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SearchService.class);
 
+    @Override
+    public  Page <UserModel> findByNomeLikeOrUsernameLike(String nome, Pageable pageable) throws IOException {
+    	return iUserESRepository.findByNome(nome, pageable);
+    }
+    
     @Override
     public ResultQuery searchFromQuery(String query) throws IOException {
         String body = HelperFunctions.buildMultiIndexMatchBody(query);
@@ -80,4 +93,5 @@ public class SearchService implements ISearchService {
             return resultQuery;
         }
     }
+
 }

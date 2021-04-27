@@ -16,8 +16,8 @@ import com.picpay.testebackend.model.UserModel;
 @Repository
 public interface IUserRdbmsRepository  extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
 	
-	@Query(value = "SELECT * FROM user WHERE LIMIT :limit",nativeQuery = true)
-	List<User> allLimited(@Param("query") Integer limit);
+	@Query(value = "SELECT user.* FROM user LIMIT :limit", nativeQuery = true)
+	List<User> allLimited(@Param("limit") Integer limit);
 	
 	@Query(value = "SELECT * FROM picpay_teste.user WHERE (picpay_teste.user.nome LIKE :query OR picpay_teste.user.username LIKE :query)",nativeQuery = true)
 	Page<User> buscaNomeOuUsername(@Param("query") String name,Pageable pageable);

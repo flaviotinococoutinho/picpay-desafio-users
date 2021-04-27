@@ -17,13 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.picpay.testebackend.controller.swagger.IUserController;
 import com.picpay.testebackend.dto.UserDTO;
 import com.picpay.testebackend.service.IUserService;
 import com.picpay.testebackend.util.PathResources;
 
 @RestController
 @RequestMapping(PathResources.USER)
-public class UserController {
+public class UserController implements IUserController{
 
     private final IUserService userService;
 
@@ -38,7 +39,7 @@ public class UserController {
     }
 
     @GetMapping(PathResources.FIND_ONE + "/{" + PathResources.ID + "}")
-    public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
+    public ResponseEntity<UserDTO> findOne(@PathVariable Long id) {
         return new ResponseEntity<>(this.userService.findById(id), HttpStatus.OK);
     }
     
