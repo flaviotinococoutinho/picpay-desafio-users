@@ -18,7 +18,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.picpay.testebackend.dto.UserQuerySearchDTO;
 import com.picpay.testebackend.model.UserModel;
+import com.picpay.testebackend.rabbitmq.producer.MessageProducer;
 import com.picpay.testebackend.repository.es.IUserESRepository;
 import com.picpay.testebackend.service.ISearchService;
 import com.picpay.testebackend.util.Constants;
@@ -36,27 +38,36 @@ public class SearchService implements ISearchService {
     
     @Autowired
     public IUserESRepository iUserESRepository;
+    
+    @Autowired
+    MessageProducer messageProducer;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SearchService.class);
 
     @Override
-    public  Page <UserModel> findByNomeLikeOrUsernameLike(String nome, Pageable pageable) throws IOException {
-    	return iUserESRepository.findByNomeAndUsername(nome, pageable);
+    public  Page <UserModel> findByNomeLikeOrUsernameLike(String query, Pageable pageable) throws IOException {
+    	if(!("".equals(query))) {
+    		messageProducer.sendStoreQuerySearchUser(queryToObjQueryUser(query));
+    	}
+    	return iUserESRepository.findByNomeAndUsername(query, pageable);
     }
     
     @Override
     public ResultQuery searchFromQuery(String query) throws IOException {
+    	if(!("".equals(query))) {
+    		messageProducer.sendStoreQuerySearchUser(queryToObjQueryUser(query));
+    	}
         String body = HelperFunctions.buildMultiIndexMatchBody(query);
         return executeHttpRequest(body);
     }
 
-    /**
-     * Fetch resultQuery from elastic engine for the given body
-     *
-     * @param body String
-     * @return ResultQuery
-     * @throws IOException IOException
-     */
+
+    private UserQuerySearchDTO queryToObjQueryUser(String query) {
+    	UserQuerySearchDTO userQuerySearchDTO =new UserQuerySearchDTO();
+    	userQuerySearchDTO.setQuery(query);
+    	return userQuerySearchDTO;
+    }
+    
     private ResultQuery executeHttpRequest(String body) throws IOException{
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             ResultQuery resultQuery = new ResultQuery();
