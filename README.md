@@ -20,7 +20,7 @@ aaa40f4e-da26-42ee-b707-cb81e00610d5 |Raimundira M|raimundiram
 Faça o download do arquivo users.csv.gz que contém o banco de dados que
 deve ser usado na busca. Ele contém os IDs, nomes e usernames dos usuários
 
-## Diferenciais do desafio exigido
+## Diferenciais do Desafio Exigidos
   - Ter um desempenho elevado num conjunto de dados muito grande
   - Utilizar o Docker
   - Toda vez que fizer uma pesquisa, disparar em uma fila com a string que foi
@@ -32,7 +32,7 @@ docker-compose up --build
 ```
 > - O processo para build e up das imagens é um pouco demorado, o backend irá depender de todas os serviços executando.
 
-## Tecnologias utilizadas
+## Tecnologias Utilizadas
   - Spring Boot 2.1.4
   - Maven
   - Spring Data JPA com MySQL e ElasticSearch
