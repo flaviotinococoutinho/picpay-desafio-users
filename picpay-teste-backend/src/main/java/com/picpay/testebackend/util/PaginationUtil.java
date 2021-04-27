@@ -7,10 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.util.UriComponentsBuilder;
 
-/**
- * Utility class for handling pagination. Refer:
- * https://developer.github.com/v3/#pagination
- */
 public final class PaginationUtil {
 
 	private PaginationUtil() {

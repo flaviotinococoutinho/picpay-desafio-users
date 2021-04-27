@@ -3,7 +3,6 @@ package com.picpay.testebackend.util;
 public final class PathResources {
 
     private PathResources() {
-        // do nothing
     }
 
     public static final String USER = "/user";

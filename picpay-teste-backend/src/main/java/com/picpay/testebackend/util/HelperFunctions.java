@@ -10,12 +10,6 @@ public class HelperFunctions {
 
     private static final String[] USER_FIELDS = {"nome", "username"};
 
-    /**
-     * Construct the query body for multi index matching
-     *
-     * @param query String
-     * @return String
-     */
     public static String buildMultiIndexMatchBody(String query) {
         return "{\n" +
                 "\"from\": 0,\n" +
