@@ -7,6 +7,7 @@ import java.util.Date;
 @Document(indexName = "user")
 public class UserModel {
     private Long id;
+    private String uuid;
     private String nome;
     private String username;
     private Date modificationDate;
@@ -22,8 +23,16 @@ public class UserModel {
     public void setId(Long id) {
         this.id = id;
     }
+    
+    public String getUuid() {
+		return uuid;
+	}
 
-    public String getNome() {
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
+	public String getNome() {
 		return nome;
 	}
 

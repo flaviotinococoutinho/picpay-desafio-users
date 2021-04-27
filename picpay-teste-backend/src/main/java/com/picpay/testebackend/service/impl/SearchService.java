@@ -41,7 +41,7 @@ public class SearchService implements ISearchService {
 
     @Override
     public  Page <UserModel> findByNomeLikeOrUsernameLike(String nome, Pageable pageable) throws IOException {
-    	return iUserESRepository.findByNome(nome, pageable);
+    	return iUserESRepository.findByNomeAndUsername(nome, pageable);
     }
     
     @Override

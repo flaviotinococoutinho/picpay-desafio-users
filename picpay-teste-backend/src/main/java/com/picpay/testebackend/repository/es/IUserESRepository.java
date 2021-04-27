@@ -15,4 +15,7 @@ public interface IUserESRepository extends ElasticsearchRepository<UserModel, Lo
 	
 	@Query("{\"match\": {\"username\": {\"query\": \"?0\"}}}")
 	Page <UserModel> findByUsername(String query, Pageable pageable);
+	
+	@Query("{\"multi_match\": {\"query\": \"?0\", \"fields\": [\"nome\", \"username\"]}}")
+	Page <UserModel> findByNomeAndUsername(String query, Pageable pageable);
 }
