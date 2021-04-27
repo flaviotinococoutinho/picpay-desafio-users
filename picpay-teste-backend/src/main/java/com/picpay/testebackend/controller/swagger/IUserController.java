@@ -28,7 +28,7 @@ public interface IUserController {
    
 	@ApiOperation(value = "Busca usuário pelo ID.", response = Iterable.class)
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Salvo com sucesso")
+        @ApiResponse(code = 200, message = "OK!")
         ,@ApiResponse(code = 400, message = "Solicitação inválida")
         ,@ApiResponse(code = 401, message = "Você não está autorizado a visualizar o recurso")
         ,@ApiResponse(code = 403, message = "Acessar o recurso que você estava tentando acessar é proibido")
@@ -36,9 +36,9 @@ public interface IUserController {
     })
     public ResponseEntity<UserDTO> findOne(@PathVariable Long id);
     
-	@ApiOperation(value = "Busca usuário pelo ID.", response = Iterable.class)
+	@ApiOperation(value = "Busca usuário pelo banco relacional pelo ID.", response = Iterable.class)
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Salvo com sucesso")
+        @ApiResponse(code = 200, message = "OK!")
         ,@ApiResponse(code = 400, message = "Solicitação inválida")
         ,@ApiResponse(code = 401, message = "Você não está autorizado a visualizar o recurso")
         ,@ApiResponse(code = 403, message = "Acessar o recurso que você estava tentando acessar é proibido")

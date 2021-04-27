@@ -48,12 +48,14 @@ public class ElasticSynchronizer {
         LOG.info(" End Syncing - {}", LocalDateTime.now());
     }
 
+    //TODO Esse sincronismo deve ser feito pelo logdash
     private void syncUsers() {
 
         Specification<User> userSpecification = (root, criteriaQuery, criteriaBuilder) ->
                 getModificationDatePredicate(criteriaBuilder, root);
         List<User> userList;
         if (userESRepo.count() == 0) {
+        	// Limitado para evitar estouro de memória
             userList = userDAO.allLimited(20000);
         } else {
             userList = userDAO.findAll(userSpecification);
