@@ -1,6 +1,6 @@
 # Desafio PicPay
 
-### Java Jr Backend - Busca Usuarios Otimizado
+### Java Jr. Backend - Busca de Usáarios - Otimizado -
 
 O desafio foi criar uma API REST para busca de usuarios pelo nome e/ou username a partir de uma palavra chave. 
 
